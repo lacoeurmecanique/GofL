@@ -19,8 +19,9 @@ class GameWindow<Gosu::Window
     @font = Gosu::Font.new(25)
   end
 
+  private
+
   def update
-    #p @grid.cells
     if @running
       sleep DURATION
       @rules.state = @grid.cells
@@ -63,8 +64,6 @@ class GameWindow<Gosu::Window
   end
 
   def invert_cell(x, y)
-    #@grid.cells[[x, y]] = @grid.cells[[x, y]] == 0 ? 1 : 0
-    puts "xy: #{x}+#{y}"
     @grid.cells[[x, y]] = @grid.cells[[x, y]].zero? ? 1 : 0
   end
 
@@ -72,6 +71,22 @@ class GameWindow<Gosu::Window
     @grid.random = false
     @tick = 0
     @grid.initialize_cells_hash
+  end
+
+  def create_gun
+    [
+        [25, 1],
+        [23, 2], [25, 2],
+        [13, 3], [14, 3], [21, 3], [22, 3],
+        [12, 4], [16, 4], [21, 4], [22, 4], [35, 4], [36, 4],
+        [1, 5],  [2, 5],  [11, 5], [17, 5], [21, 5], [22, 5], [35, 5], [36, 5],
+        [1, 6],  [2, 6],  [11, 6], [15, 6], [17, 6], [18, 6], [23, 6], [25, 6],
+        [11, 7], [17, 7], [25, 7],
+        [12, 8], [16, 8],
+        [13, 9], [14, 9]
+    ].each do |x, y|
+      @grid.cells[[x, y]] = 1
+    end
   end
 
   def randomize_grid
@@ -84,15 +99,17 @@ class GameWindow<Gosu::Window
       when Gosu::KB_ESCAPE then close
       when Gosu::KB_R      then randomize_grid
       when Gosu::KB_C      then clear_grid
+      when Gosu::KB_D      then create_gun
       when Gosu::KB_SPACE  then @running = !@running
       when Gosu::MsLeft    then invert_cell(mouse_x.to_i / CELL_SIZE,
                                                  mouse_y.to_i / CELL_SIZE)
     end
   end
 
-  def needs_cursor?; true; end
+  def needs_cursor?
+    true
+  end
+
 end
-
-
 
 GameWindow.new.show

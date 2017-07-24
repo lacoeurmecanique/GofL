@@ -8,24 +8,23 @@ class LifeRules
   end
 
   def get_state_at(x, y)
-    case
-      when underpopulated?(x, y) then 0
-      when living_happily?(x, y) then 1
-      when overpopulated?(x, y)  then 0
-      when can_reproduce?(x, y)  then 1
+    if underpopulated?(x, y)
+      0
+    elsif living_happily?(x, y)
+      1
+    elsif overpopulated?(x, y)
+      0
+    elsif can_reproduce?(x, y)
+      1
+    else
+      0
     end
   end
 
-
-
   private
 
-  def is_alive?(x, y)
+  def alive?(x, y)
     @state[[x, y]] == 1
-  end
-
-  def is_dead?(x, y)
-    !is_alive?(x, y)
   end
 
   def population_at(x, y)
@@ -42,19 +41,19 @@ class LifeRules
   end
 
   def underpopulated?(x, y)
-    is_alive?(x, y) && population_at(x, y) < 2
+    alive?(x, y) && population_at(x, y) < 2
   end
 
   def living_happily?(x, y)
-    is_alive?(x, y) && ([2, 3].include? population_at(x, y))
+    alive?(x, y) && ([2, 3].include? population_at(x, y))
   end
 
   def overpopulated?(x, y)
-    is_alive?(x, y) && population_at(x, y) > 3
+    alive?(x, y) && population_at(x, y) > 3
   end
 
   def can_reproduce?(x, y)
-    is_dead?(x, y) && population_at(x, y) == 3
+    !alive?(x, y) && population_at(x, y) == 3
   end
 
 end
