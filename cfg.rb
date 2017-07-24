@@ -3,5 +3,5 @@ module Cfg
   HEIGHT = 800
   MAX_FPS = 60
   CELL_SIZE = 20
-  DURATION=0.15
+  DURATION = 0.15
 end
